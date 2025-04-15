@@ -88,7 +88,7 @@ vector<Token> tokenize(const string &code, vector<string> &errors)
             if (code[i + 1] == '*')
             {
                 word.clear();
-                i += 2;
+                // i += 2;
                 while (i + 1 < n && !(code[i] == '*' && code[i + 1] == '/'))
                 {
                     if (code[i] == '\n')
@@ -102,12 +102,12 @@ vector<Token> tokenize(const string &code, vector<string> &errors)
                 }
                 word += "*/";
                 i++;
-                tokens.push_back({"COMMENT", word, line});
+                tokens.push_back({"MULTILINE COMMENT", word, line});
                 continue;
             }
         }
 
-        if (isalpha(ch) || ch == '_')
+        if (isalpha(ch) || ch == '_')   
         {
             word.clear();
             while (i < n && (isalnum(code[i]) || code[i] == '_'))
@@ -181,17 +181,20 @@ vector<Token> tokenize(const string &code, vector<string> &errors)
         else
         {
             string op;
-            op += ch;
+            op += ch;   // প্রথম অক্ষর সংগ্রহ করা (যেমন '+', '-', '=' ইত্যাদি)
             if (i + 1 < n)
             {
-                op += code[i + 1];
-                if (isOperator(op))
+                op += code[i + 1]; // পরবর্তী অক্ষর আছে কি না চেক করা
+                if (isOperator(op))  // দ্বিতীয় অক্ষর সংগ্রহ করা (যেমন '==', '>=', '<=' ইত্যাদি)
                 {
                     tokens.push_back({"OPERATOR", op, line});
                     i++;
                     continue;
                 }
             }
+            // যদি এটি একক অক্ষরের অপারেটর হয় (যেমন '+', '-', '=', '!')
+            // ch কে একটি string-এ রূপান্তর করা হয়।
+            // উদাহরণ: যদি ch = '+' হয়, তাহলে string(1, ch) হবে "+"।
             if (isOperator(string(1, ch)))
             {
                 tokens.push_back({"OPERATOR", string(1, ch), line});
