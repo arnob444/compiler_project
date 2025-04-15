@@ -16,6 +16,7 @@ int main()
     int num2 = 20;
     int result;  
 
+    // This is a normal code 
     result = calculateSum(num1, num2);
     printf("The sum of %d and %d is: %d\n", num1, num2, result);
     return 0;
